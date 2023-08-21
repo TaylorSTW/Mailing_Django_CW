@@ -1,0 +1,37 @@
+{% extends 'newsletters/base.html' %}
+{% block title %}
+    Clients
+{% endblock %}
+{% block content %}
+    <div class="px-4 py-5 text-center">
+        <h1 class="display-5 fw-bold text-body-emphasis">Clients</h1>
+        <div class="col-lg-10 mx-auto">
+            <p class="lead mb-4">These are your clients to whom newsletters will be delivered.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{% url 'newsletters:client_create' %}" type="button" class="btn btn-primary btn-lg px-4 gap-3">Add client</a>
+            </div>
+            <div class="row mt-5 justify-content-center">
+                {% for object in object_list %}
+                    <div class="col-md-3 mx-3">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <p class="card-text fs-5">{{ object.fullname }}</p>
+                                <p class="card-text">{{ object.email }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'newsletters:client_view' object.pk %}" class="btn btn-outline-primary">View</a>
+                                    <a href="{% url 'newsletters:client_update' object.pk %}" class="btn btn-outline-primary">Edit</a>
+                                    <a href="{% url 'newsletters:client_delete' object.pk %}" class="btn btn-outline-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+</body>

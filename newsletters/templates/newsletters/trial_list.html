@@ -1,0 +1,62 @@
+{% extends 'newsletters/base.html' %}
+{% block title %}
+    Trials
+{% endblock %}
+{% block content %}
+    <div class="px-4 py-5 text-center">
+        <h1 class="display-5 fw-bold text-body-emphasis">Trials</h1>
+        <div class="col-lg-8 mx-auto">
+            <p class="lead mb-4">All trials are displayed on this page</p>
+            <table class="table table-striped table-sm" style="width: 100%">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Response</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in object_list %}
+                    <tr>
+
+                        <td>{{ object.pk }}</td>
+                        <td>{{ object.date|date:"H:i" }}
+                            on {{ object.date|date:"d M Y" }}</td>
+                        <td>
+                            {% if object.status == 'successful' %}
+                                <span class="text-success">{{ object.status }}</span>
+                            {% else %}
+                                <span class="text-danger">{{ object.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="col-3">{{ object.client.email }}</td>
+                        <td class="col-4 overflow-y-scroll">
+                            {% if object.response %}
+                                {#                            {{ object.response }}#}
+                                <button type="button"
+                                        class="btn btn-sm btn-secondary"
+                                        data-bs-toggle="popover"
+                                        data-bs-placement="left"
+                                        data-bs-content="{{ object.response }}">
+                                    Click to view response
+                                </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Script for simple popover for SMTP response#}
+    <script>
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+    </script>
+{% endblock %}
+
